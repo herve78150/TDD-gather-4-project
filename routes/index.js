@@ -30,5 +30,16 @@ router.post('/items/create', async (req, res, next) => {
 
 });
 
+router.post('/items/:id/delete', async (req, res, next) => {
+  const id = req.params.id;
+  const item = await Item.remove({_id: id}, (err) =>{
+    if (err) {
+      res.send(error);
+    }else{
+      res.redirect("/");
+    }
+  });
+});
 
 module.exports = router;
+  
