@@ -53,8 +53,6 @@ router.post("/items/:id/update", async (req, res, next) => {
   const id = req.params.id;
   const {title, description, imageUrl} = req.body;
   const item = {title, description, imageUrl};
-   
-  console.log(JSON.stringify(item, null, 4));
 
   await Item.findOneAndUpdate({ _id: id }, item, (err) => {
     if (err) {
