@@ -32,13 +32,38 @@ router.post('/items/create', async (req, res, next) => {
 
 router.post('/items/:id/delete', async (req, res, next) => {
   const id = req.params.id;
-  const item = await Item.remove({_id: id}, (err) =>{
+  await Item.remove({ _id: id }, (err) => {
     if (err) {
       res.send(error);
-    }else{
+    } else {
       res.redirect("/");
     }
   });
+});
+
+
+router.get('/items/:id/update', async (req, res, next) => {
+  const id = req.params.id;
+  const item = await Item.findById({_id: id});
+
+  res.render('update.layout.handlebars', {item});
+});
+
+router.post("/items/:id/update", async (req, res, next) => {
+  const id = req.params.id;
+  const {title, description, imageUrl} = req.body;
+  const item = {title, description, imageUrl};
+   
+  console.log(JSON.stringify(item, null, 4));
+
+  await Item.findOneAndUpdate({ _id: id }, item, (err) => {
+    if (err) {
+      res.send(err);
+    } else {
+      res.redirect('/');
+    }
+  });  
+
 });
 
 module.exports = router;
